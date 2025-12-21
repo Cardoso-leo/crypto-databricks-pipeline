@@ -1,0 +1,25 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.window import Window
+from pyspark.sql.functions import lag, col, round
+
+spark = SparkSession.builder.getOrCreate()
+
+df = spark.table("default.silver_crypto_prices")
+
+window = Window.partitionBy("id").orderBy("date")
+
+df_gold = (
+    df
+    .withColumn("previous_price", lag("price_brl").over(window))
+    .withColumn(
+        "daily_variation_percent",
+        round(
+            (col("price_brl") - col("previous_price")) / col("previous_price") * 100,
+            2
+        )
+    )
+)
+
+df_gold.write.format("delta") \
+    .mode("overwrite") \
+    .saveAsTable("default.gold_crypto_indicators")

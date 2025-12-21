@@ -1,0 +1,19 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, to_date
+
+spark = SparkSession.builder.getOrCreate()
+
+df_bronze = spark.table("default.bronze_crypto_prices")
+
+df_silver = (
+    df_bronze
+    .withColumn("price_brl", col("price").cast("double"))
+    .withColumn("market_cap", col("market_cap").cast("double"))
+    .withColumn("date", to_date("ingestion_timestamp"))
+    .select("id", "name", "symbol", "price_brl", "market_cap", "date")
+)
+
+df_silver.write.format("delta") \
+    .mode("overwrite") \
+    .option("mergeSchema", "true") \
+    .saveAsTable("default.silver_crypto_prices")
