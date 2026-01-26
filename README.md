@@ -1,4 +1,4 @@
-Crypto Analytics Pipeline with Databricks & Delta Lake
+Crypto Analytics Pipeline with Databricks & Delta Lake.
 
 This project implements a batch data pipeline using Databricks, PySpark and Delta Lake, following a Bronze–Silver–Gold architecture.
 
@@ -21,3 +21,4 @@ Key Concepts Applied
 
 Motivation
 This project is part of a personal 50-day challenge focused on deepening my skills in data engineering and analytics.
+.
