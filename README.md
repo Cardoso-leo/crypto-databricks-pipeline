@@ -21,4 +21,4 @@ Key Concepts Applied
 
 Motivation
 This project is part of a personal 50-day challenge focused on deepening my skills in data engineering and analytics.
-.
+
